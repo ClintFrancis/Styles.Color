@@ -2,3 +2,10 @@ Styles.Color.Core.userprefs
 src/Styles.Color.Droid/obj
 src/Styles.Color.Core/bin
 src/Styles.Color.Core/obj
+samples/ColorStyleDemo.iOS/bin
+samples/ColorStyleDemo.iOS/obj
+src/Styles.Color.iOS/bin
+src/Styles.Color.iOS/obj
+src/Styles.Color.Droid/bin
+src/Styles.Color.Shared/obj
+src/Styles.Color.Shared/bin

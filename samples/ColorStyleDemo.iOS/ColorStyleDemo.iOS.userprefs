@@ -1,0 +1,10 @@
+﻿<Properties StartupConfiguration="{D3958E74-BDF2-4BC1-AF6E-A39876B56C85}|Default">
+  <MonoDevelop.Ide.ItemProperties.ColorStyleDemo.iOS PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.95A22A37-7D10-4820-B0A7-AA4763E0ECBF" />
+  <MonoDevelop.Ide.Workbench />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhoneSimulator" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MultiItemStartupConfigurations />
+</Properties>

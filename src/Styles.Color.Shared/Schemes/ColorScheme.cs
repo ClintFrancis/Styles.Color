@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Styles.Color;
 
 namespace Styles.Color
 {
