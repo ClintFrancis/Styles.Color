@@ -1,0 +1,7 @@
+/Users/clintonfrancis/Development/Personal/StylesColor/src/Styles.Color.Shared/obj/Debug/.NETPortable,Version=v4.5,Profile=Profile111.AssemblyAttribute.cs
+/Users/clintonfrancis/Development/Personal/StylesColor/src/Styles.Color.Shared/bin/Debug/Styles.Color.Shared.dll.mdb
+/Users/clintonfrancis/Development/Personal/StylesColor/src/Styles.Color.Shared/bin/Debug/Styles.Color.Shared.dll
+/Users/clintonfrancis/Development/Personal/StylesColor/src/Styles.Color.Shared/obj/Debug/Styles.Color.Shared.dll
+/Users/clintonfrancis/Development/Personal/StylesColor/src/Styles.Color.Shared/obj/Debug/Styles.Color.Shared.dll.mdb
+/Users/clintonfrancis/Development/Personal/StylesColor/src/Styles.Color.Shared/bin/Debug/Styles.Shared.dll
+/Users/clintonfrancis/Development/Personal/StylesColor/src/Styles.Color.Shared/bin/Debug/Styles.Shared.dll.mdb
