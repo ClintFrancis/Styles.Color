@@ -9,3 +9,5 @@ src/Styles.Color.iOS/obj
 src/Styles.Color.Droid/bin
 src/Styles.Color.Shared/obj
 src/Styles.Color.Shared/bin
+tests/SharedColorTests/bin
+tests/SharedColorTests/obj

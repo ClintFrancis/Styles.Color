@@ -71,25 +71,25 @@ namespace Styles.Color
 
 
 		// Secondard Colors TDB
-		public static ColorRGB Red { get { return ColorRGB.FromRGB(241, 69, 61); } }
-		public static ColorRGB Pink { get { return ColorRGB.FromRGB(230, 37, 101); } }
-		public static ColorRGB Purple { get { return ColorRGB.FromRGB(155, 47, 174); } }
-		public static ColorRGB DeepPurple { get { return ColorRGB.FromRGB(103, 63, 180); } }
-		public static ColorRGB Indigo { get { return ColorRGB.FromRGB(64, 84, 178); } }
-		public static ColorRGB Blue { get { return ColorRGB.FromRGB(43, 152, 240); } }
-		public static ColorRGB LightBlue { get { return ColorRGB.FromRGB(30, 170, 241); } }
-		public static ColorRGB Cyan { get { return ColorRGB.FromRGB(31, 188, 210); } }
-		public static ColorRGB Teal { get { return ColorRGB.FromRGB(21, 149, 136); } }
-		public static ColorRGB Green { get { return ColorRGB.FromRGB(80, 174, 85); } }
-		public static ColorRGB LightGreen { get { return ColorRGB.FromRGB(140, 193, 82); } }
-		public static ColorRGB Lime { get { return ColorRGB.FromRGB(205, 218, 73); } }
-		public static ColorRGB Yellow { get { return ColorRGB.FromRGB(254, 233, 78); } }
-		public static ColorRGB Amber { get { return ColorRGB.FromRGB(253, 192, 47); } }
-		public static ColorRGB Orange { get { return ColorRGB.FromRGB(253, 151, 39); } }
-		public static ColorRGB DeepOrange { get { return ColorRGB.FromRGB(252, 88, 48); } }
-		public static ColorRGB Brown { get { return ColorRGB.FromRGB(120, 85, 73); } }
-		public static ColorRGB Grey { get { return ColorRGB.FromRGB(158, 158, 158); } }
-		public static ColorRGB BlueGrey { get { return ColorRGB.FromRGB(97, 125, 138); } }
+		public static ColorRGB Red { get { return new ColorRGB(241, 69, 61); } }
+		public static ColorRGB Pink { get { return new ColorRGB(230, 37, 101); } }
+		public static ColorRGB Purple { get { return new ColorRGB(155, 47, 174); } }
+		public static ColorRGB DeepPurple { get { return new ColorRGB(103, 63, 180); } }
+		public static ColorRGB Indigo { get { return new ColorRGB(64, 84, 178); } }
+		public static ColorRGB Blue { get { return new ColorRGB(43, 152, 240); } }
+		public static ColorRGB LightBlue { get { return new ColorRGB(30, 170, 241); } }
+		public static ColorRGB Cyan { get { return new ColorRGB(31, 188, 210); } }
+		public static ColorRGB Teal { get { return new ColorRGB(21, 149, 136); } }
+		public static ColorRGB Green { get { return new ColorRGB(80, 174, 85); } }
+		public static ColorRGB LightGreen { get { return new ColorRGB(140, 193, 82); } }
+		public static ColorRGB Lime { get { return new ColorRGB(205, 218, 73); } }
+		public static ColorRGB Yellow { get { return new ColorRGB(254, 233, 78); } }
+		public static ColorRGB Amber { get { return new ColorRGB(253, 192, 47); } }
+		public static ColorRGB Orange { get { return new ColorRGB(253, 151, 39); } }
+		public static ColorRGB DeepOrange { get { return new ColorRGB(252, 88, 48); } }
+		public static ColorRGB Brown { get { return new ColorRGB(120, 85, 73); } }
+		public static ColorRGB Grey { get { return new ColorRGB(158, 158, 158); } }
+		public static ColorRGB BlueGrey { get { return new ColorRGB(97, 125, 138); } }
 
 		public static ColorRGB [] FlatColors2 = new ColorRGB []{
 			   Red.Lightened(),          Red.Darkened(),

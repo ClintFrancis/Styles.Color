@@ -17,6 +17,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Styles.Android", "..\..\..\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Styles.iOS", "..\..\..\StylesCore\src\Styles.iOS\Styles.iOS.csproj", "{4136A2FB-1B10-4597-8459-19E2723756CB}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Unit tests", "Unit tests", "{9A89F2EC-876D-4507-91BB-143C91D14BB5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedColorTests", "..\..\tests\SharedColorTests\SharedColorTests.csproj", "{BB6E25DD-89AC-4DC3-814C-10F373A0F498}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,10 +55,15 @@ Global
 		{4136A2FB-1B10-4597-8459-19E2723756CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4136A2FB-1B10-4597-8459-19E2723756CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4136A2FB-1B10-4597-8459-19E2723756CB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB6E25DD-89AC-4DC3-814C-10F373A0F498}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB6E25DD-89AC-4DC3-814C-10F373A0F498}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB6E25DD-89AC-4DC3-814C-10F373A0F498}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB6E25DD-89AC-4DC3-814C-10F373A0F498}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{F7DE4405-3FCD-497D-B1B1-BC8351C5804B} = {9970900F-6BAA-445E-8BF4-F5FAE64DF675}
 		{FC7E2862-E5A1-4FD4-803C-9A15D9F43FB6} = {9970900F-6BAA-445E-8BF4-F5FAE64DF675}
 		{4136A2FB-1B10-4597-8459-19E2723756CB} = {9970900F-6BAA-445E-8BF4-F5FAE64DF675}
+		{BB6E25DD-89AC-4DC3-814C-10F373A0F498} = {9A89F2EC-876D-4507-91BB-143C91D14BB5}
 	EndGlobalSection
 EndGlobal
