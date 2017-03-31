@@ -3,39 +3,29 @@ namespace Styles.Color
 {
 	public sealed class MonochromaticColorScheme : ColorScheme
 	{
-		public MonochromaticColorScheme (string name)
-		{
-			Name = name;
-			Type = ColorSchemeType.Monochromatic;
-		}
+		const string DarkColorID = "dark";
+		const string DarkenedColorID = "darkened";
+		const string LightColorID = "light";
+		const string LightenedColorID = "lightened";
 
-		public MonochromaticColorScheme (string name, IRgb [] colors)
+		public IRgb DarkColor { get { return Colors[DarkColorID]; } }
+		public IRgb DarkenedColor { get { return Colors[DarkenedColorID]; } }
+		public IRgb LightColor { get { return Colors[LightColorID]; } }
+		public IRgb LightenedColor { get { return Colors[LightenedColorID]; } }
+
+		MonochromaticColorScheme (Swatch [] colors)
 		{
-			Name = name;
+			Type = ColorSchemeType.Monochromatic;
 			SetColors (colors);
-			Type = ColorSchemeType.Monochromatic;
 		}
 
-		public override IRgb GetColorStep (int offset)
-		{
-			int targetIndex = PrimaryIndex + offset;
-			if (targetIndex > Colors.Length - 1) {
-				targetIndex = Colors.Length - 1;
-			} else if (targetIndex < 0) {
-				throw new Exception ("Monochromatic Color Index cannot be less than 0");
-			}
-
-			return Colors [targetIndex];
-		}
-
-		public override void SetColors (IRgb [] colors)
+		public override void SetColors (Swatch [] colors)
 		{
 			var length = colors.Length;
-			if (length > 8)
-				throw new Exception ("Invalid range of colors supplied, monochromatic color arrays must be 8 or less colors in length");
+			if (length != 5)
+				throw new Exception ("Invalid range of colors supplied, monochromatic color arrays must be 5 colors in length");
 
-			Colors = colors;
-			PrimaryIndex = (int)Math.Floor (length / 2d);
+			base.SetColors(colors);
 		}
 
 		public static MonochromaticColorScheme FromColor (ColorRGB color, bool flatten)
@@ -47,12 +37,13 @@ namespace Styles.Color
 
 			var lab = (ColorLAB)ColorLAB.FromColor (color);
 
-			var firstColor = (ColorRGB)ColorLAB.ToColor (lab.L - 20, lab.A, lab.B);
-			var secondColor = (ColorRGB)ColorLAB.ToColor (lab.L - 10, lab.A, lab.B);
-			var fourthColor = (ColorRGB)ColorLAB.ToColor (lab.L + 10, lab.A, lab.B);
-			var fifthColor = (ColorRGB)ColorLAB.ToColor (lab.L + 20, lab.A, lab.B);
+			var dark 		= new Swatch(DarkColorID, ColorLAB.ToColor (lab.L - 20, lab.A, lab.B));
+			var darkened 	= new Swatch(DarkenedColorID, ColorLAB.ToColor (lab.L - 10, lab.A, lab.B));
+			var primary 	= new Swatch(PrimaryColorID, color);
+			var lightened 	= new Swatch(LightenedColorID, ColorLAB.ToColor (lab.L + 10, lab.A, lab.B));
+			var light 		= new Swatch(LightColorID, ColorLAB.ToColor (lab.L + 20, lab.A, lab.B));
 
-			return new MonochromaticColorScheme ("", new IRgb [] { firstColor, secondColor, color, fourthColor, fifthColor });
+			return new MonochromaticColorScheme (new Swatch [] { dark, darkened, primary, lightened, light });
 		}
 	}
 }

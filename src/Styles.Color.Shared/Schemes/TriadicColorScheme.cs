@@ -3,58 +3,44 @@ namespace Styles.Color
 {
 	public sealed class TriadicColorScheme : ColorScheme
 	{
-		public TriadicColorScheme (string name)
-		{
-			Name = name;
-			Type = ColorSchemeType.Triadic;
-		}
+		const string SecondaryColorID = "secondary";
+		const string TertiaryColorID = "tertiary";
 
-		public TriadicColorScheme (string name, IRgb [] colors)
+		public IRgb SecondaryColor { get { return Colors[SecondaryColorID]; } }
+		public IRgb TertiaryColor { get { return Colors[TertiaryColorID]; } }
+
+		TriadicColorScheme (Swatch [] colors)
 		{
-			Name = name;
+			Type = ColorSchemeType.Triadic;
 			SetColors (colors);
-			Type = ColorSchemeType.Triadic;
 		}
 
-		public override IRgb GetColorStep (int offset)
-		{
-			int targetIndex = PrimaryIndex + offset;
-			if (targetIndex > Colors.Length - 1) {
-				targetIndex = Colors.Length - 1;
-			} else if (targetIndex < 0) {
-				targetIndex = 0;
-			}
-
-			return Colors [targetIndex];
-		}
-
-		public override void SetColors (IRgb [] colors)
+		public override void SetColors (Swatch [] colors)
 		{
 			var length = colors.Length;
 			if (length != 3)
 				throw new Exception ("Invalid range of colors supplied, triadic color arrays must be 3 colors in length");
 
-			Colors = colors;
-			PrimaryIndex = (int)Math.Floor (length / 2d);
+			base.SetColors(colors);
 		}
 
 		public static TriadicColorScheme FromColor (ColorRGB color, bool flatten)
 		{
 			var hsb = ColorHSB.FromColor (color);
 
-			var firstColor = (ColorRGB)ColorHSB.ToColor (
+			var primary = new Swatch(PrimaryColorID, color);
+
+			var secondary = new Swatch(SecondaryColorID, ColorHSB.ToColor (
 				hue: hsb.H - 120,
 				saturation: hsb.S,
 				brightness: hsb.B
-			);
+			));
 
-			var secondColor = color;
-
-			var thirdColor = (ColorRGB)ColorHSB.ToColor (
+			var tertiary = new Swatch(TertiaryColorID, ColorHSB.ToColor (
 				hue: hsb.H + 120,
 				saturation: hsb.S,
 				brightness: hsb.B
-			);
+			));
 
 			if (flatten) {
 				throw new NotImplementedException("Lab colors still need to be generated correctly");
@@ -63,12 +49,12 @@ namespace Styles.Color
 				var labColors = ColorScheme.GenerateColors (24, 0, .66, .81);
 
 				//Flatten colors
-				firstColor = firstColor.NearestFlatColor (labColors);
-				secondColor = secondColor.NearestFlatColor (labColors);
-				thirdColor = thirdColor.NearestFlatColor (labColors);
+				primary.Color = primary.Color.NearestFlatColor (labColors);
+				secondary.Color = secondary.Color.NearestFlatColor (labColors);
+				tertiary.Color = tertiary.Color.NearestFlatColor (labColors);
 			}
 
-			return new TriadicColorScheme ("", new IRgb [] { firstColor, secondColor, thirdColor });
+			return new TriadicColorScheme (new Swatch [] { primary, secondary, tertiary });
 		}
 	}
 }

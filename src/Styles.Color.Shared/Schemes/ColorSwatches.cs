@@ -1,6 +1,18 @@
 ﻿using System;
 namespace Styles.Color
 {
+	public struct Swatch
+	{
+		public IColorSpace Color { get; set; }
+		public string Name { get; set; }
+
+		public Swatch(string name, IColorSpace color)
+		{
+			Name = name;
+			Color = color;
+		}
+	}
+
 	public static class ColorSwatches
 	{
 		// Light colors

@@ -5,6 +5,7 @@ using CoreGraphics;
 using Styles;
 using System.Collections.Generic;
 using Styles.Color;
+using System.Linq;
 
 namespace ColorStyleDemo.iOS
 {
@@ -24,7 +25,7 @@ namespace ColorStyleDemo.iOS
 
 			var hsbPrimary = ColorSwatches.FlatMagenta;
 			var primaryColor = ColorRGB.FromHex ("#f04c3b");
-			var useFlatColors = true;
+			var useFlatColors = false;
 
 			swatches = new List<UIView> () {
 				CreateSwatchView (primaryColor, ColorSchemeType.Monochromatic, "Monochromatic", useFlatColors),
@@ -63,7 +64,7 @@ namespace ColorStyleDemo.iOS
 			var scheme = ColorScheme.CreateColorScheme (color, type, false);
 			var rowRect = new CGRect (0, labelHeight, swatchSize, swatchSize);
 			var colorView = new UIView () {
-				Frame = new CGRect (0, 0, scheme.Colors.Length * swatchSize, swatchSize + labelHeight)
+				Frame = new CGRect (0, 0, scheme.Colors.Count * swatchSize, swatchSize + labelHeight)
 			};
 
 			var label = new UILabel { 
@@ -74,12 +75,12 @@ namespace ColorStyleDemo.iOS
 			};
 			colorView.Add(label);
 
-			for (int i = 0; i < scheme.Colors.Length; i++) {
+			for (int i = 0; i < scheme.Colors.Count; i++) {
 				if (i > 0)
 					rowRect.Offset (swatchSize, 0);
 
-				var colorRgb = (ColorRGB)scheme.Colors [i];
-				var swatch = new ColorSwatchView (rowRect, scheme.Colors [i], colorRgb.ToHex ());
+				var colorRgb = (ColorRGB)scheme.Colors.Values.ElementAt(i);
+				var swatch = new ColorSwatchView (rowRect, colorRgb, colorRgb.ToHex ());
 				colorView.Add (swatch);
 			}
 
