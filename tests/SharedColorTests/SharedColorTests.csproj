@@ -32,6 +32,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ColorTestsRGB.cs" />
+    <Compile Include="ColorTestsHSL.cs" />
+    <Compile Include="HSLUtil.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
