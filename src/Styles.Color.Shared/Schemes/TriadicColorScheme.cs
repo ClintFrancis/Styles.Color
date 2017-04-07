@@ -19,42 +19,30 @@ namespace Styles.Color
 		{
 			var length = colors.Length;
 			if (length != 3)
-				throw new Exception ("Invalid range of colors supplied, triadic color arrays must be 3 colors in length");
+				throw new Exception ("Invalid range of colors supplied, triadic color arrays must be contain 3 colors");
 
 			base.SetColors(colors);
 		}
 
-		public static TriadicColorScheme FromColor (ColorRGB color, bool flatten)
+		public static TriadicColorScheme FromColor (ColorRGB color)
 		{
-			var hsb = ColorHSB.FromColor (color);
+			var hsl = ColorHSL.FromColor (color);
 
-			var primary = new Swatch(PrimaryColorID, color);
+			var divisor = 1d / 3d;
+			hsl.H -= divisor;
 
-			var secondary = new Swatch(SecondaryColorID, ColorHSB.ToColor (
-				hue: hsb.H - 120,
-				saturation: hsb.S,
-				brightness: hsb.B
-			));
+			var swatches = new Swatch[]{
+				new Swatch(TertiaryColorID, ColorHSL.Empty),
+				new Swatch(PrimaryColorID, ColorHSL.Empty),
+				new Swatch(SecondaryColorID, ColorHSL.Empty)
+			};
 
-			var tertiary = new Swatch(TertiaryColorID, ColorHSB.ToColor (
-				hue: hsb.H + 120,
-				saturation: hsb.S,
-				brightness: hsb.B
-			));
-
-			if (flatten) {
-				throw new NotImplementedException("Lab colors still need to be generated correctly");
-
-				// HACK this needs to be set as a parameter
-				var labColors = ColorScheme.GenerateColors (24, 0, .66, .81);
-
-				//Flatten colors
-				primary.Color = primary.Color.NearestFlatColor (labColors);
-				secondary.Color = secondary.Color.NearestFlatColor (labColors);
-				tertiary.Color = tertiary.Color.NearestFlatColor (labColors);
+            for (var i = 0; i< swatches.Length; i++){
+				swatches[i].Color = hsl.ToRgb();
+				hsl.H += divisor;     
 			}
 
-			return new TriadicColorScheme (new Swatch [] { primary, secondary, tertiary });
+			return new TriadicColorScheme (swatches);
 		}
 	}
 }

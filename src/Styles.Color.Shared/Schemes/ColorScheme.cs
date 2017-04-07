@@ -36,19 +36,23 @@ namespace Styles.Color
 			Colors[PrimaryColorID] = primary;
 		}
 
-		public static ColorScheme CreateColorScheme (ColorRGB primaryColor, ColorSchemeType type, bool useFlatColors)
+		public static ColorScheme CreateColorScheme (ColorRGB primaryColor, ColorSchemeType type)
 		{
 			switch (type) {
 			case ColorSchemeType.Analogous:
-				return AnalogousColorScheme.FromColor (primaryColor, useFlatColors);
+				return AnalogousColorScheme.FromColor (primaryColor);
 			case ColorSchemeType.Complementary:
-				return ComplementaryColorScheme.FromColor (primaryColor, useFlatColors);
+				return ComplementaryColorScheme.FromColor (primaryColor);
 			case ColorSchemeType.SplitComplementary:
-				return SplitComplementaryColorScheme.FromColor (primaryColor, useFlatColors);
+				return SplitComplementaryColorScheme.FromColor (primaryColor);
 			case ColorSchemeType.Triadic:
-				return TriadicColorScheme.FromColor (primaryColor, useFlatColors);
+				return TriadicColorScheme.FromColor (primaryColor);
 			case ColorSchemeType.Monochromatic:
-				return MonochromaticColorScheme.FromColor (primaryColor, useFlatColors);
+				return MonochromaticColorScheme.FromColor (primaryColor);
+			case ColorSchemeType.Square:
+				return SquareColorScheme.FromColor (primaryColor);
+			case ColorSchemeType.Rectangle:
+				return RectangleColorScheme.FromColor (primaryColor);
 			default:
 				throw new ArgumentException ("Unsupported ColorSchemeType supplied " + type);
 			}

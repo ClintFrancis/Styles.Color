@@ -22,7 +22,7 @@ namespace ColorStyleDemo.iOS
 			swatchSize = (float)(View.Frame.Width - padding * 2) / 3f;
 
 			var rowRect = new CGRect (40, swatchSize, swatchSize, swatchSize);
-			var primaryColor = ColorRGB.FromHex ("#c3322d");
+			var primaryColor = ColorRGB.FromHex ("#F04C3B");
 
 			// Row 
 			var primary = new ColorSwatchView (rowRect, primaryColor, "Primary\n" + primaryColor.ToHex ());

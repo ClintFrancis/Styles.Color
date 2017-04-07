@@ -12,7 +12,7 @@ namespace ColorStyleDemo.iOS
 	public partial class ColorSchemeViewController : UIViewController
 	{
 		nfloat padding = 10;
-		float swatchSize = 60;
+		float swatchSize = 50;
 		List<UIView> swatches;
 
 		public ColorSchemeViewController (IntPtr handle) : base (handle)
@@ -24,15 +24,16 @@ namespace ColorStyleDemo.iOS
 			base.ViewDidLoad ();
 
 			var hsbPrimary = ColorSwatches.FlatMagenta;
-			var primaryColor = ColorRGB.FromHex ("#f04c3b");
-			var useFlatColors = false;
+			var primaryColor = ColorRGB.FromHex ("#F04C3B");
 
 			swatches = new List<UIView> () {
-				CreateSwatchView (primaryColor, ColorSchemeType.Monochromatic, "Monochromatic", useFlatColors),
-				CreateSwatchView (primaryColor, ColorSchemeType.Analogous, "Analogous", useFlatColors),
-				CreateSwatchView (primaryColor, ColorSchemeType.Complementary, "Complementary", useFlatColors),
-				CreateSwatchView (primaryColor, ColorSchemeType.SplitComplementary, "Split Complementary", useFlatColors),
-				CreateSwatchView (primaryColor, ColorSchemeType.Triadic, "Triadic", useFlatColors)
+				//CreateSwatchView (primaryColor, ColorSchemeType.Monochromatic, "Monochromatic", useFlatColors),
+				CreateSwatchView (primaryColor, ColorSchemeType.Complementary, "Complementary"),
+				CreateSwatchView (primaryColor, ColorSchemeType.Triadic, "Triadic"),
+                CreateSwatchView(primaryColor, ColorSchemeType.Square, "Square"),
+				CreateSwatchView (primaryColor, ColorSchemeType.Analogous, "Analogous"),
+				CreateSwatchView (primaryColor, ColorSchemeType.SplitComplementary, "Split Complementary"),
+                CreateSwatchView(primaryColor, ColorSchemeType.Rectangle, "Rectangle")
 			};
 
 			var curFrame = new CGRect ();
@@ -58,10 +59,10 @@ namespace ColorStyleDemo.iOS
 
 
 
-		UIView CreateSwatchView (ColorRGB color, ColorSchemeType type, string title, bool useFlatColors)
+		UIView CreateSwatchView (ColorRGB color, ColorSchemeType type, string title)
 		{
 			var labelHeight = 20d;
-			var scheme = ColorScheme.CreateColorScheme (color, type, false);
+			var scheme = ColorScheme.CreateColorScheme (color, type);
 			var rowRect = new CGRect (0, labelHeight, swatchSize, swatchSize);
 			var colorView = new UIView () {
 				Frame = new CGRect (0, 0, scheme.Colors.Count * swatchSize, swatchSize + labelHeight)

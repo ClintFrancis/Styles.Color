@@ -17,6 +17,10 @@ namespace ColorStyleDemo.iOS
 			if (!String.IsNullOrEmpty (name)) {
 				var label = TextStyle.Main.Create<UILabel> ("swatch", name);
 				label.Frame = new CGRect (0, 0, frame.Width, frame.Height);
+				if (!color.IsContrastingColor(ColorRGB.White))
+				{
+					label.TextColor = ColorRGB.Black.ToNative();
+				}
 				Add (label);
 			}
 		}

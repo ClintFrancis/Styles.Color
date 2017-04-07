@@ -31,11 +31,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ColorTestsRGB.cs" />
-    <Compile Include="ColorTestsHSL.cs" />
-    <Compile Include="HSLUtil.cs" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -51,6 +46,13 @@
       <Project>{F7DE4405-3FCD-497D-B1B1-BC8351C5804B}</Project>
       <Name>Styles.Shared</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AdjustmentTests.cs" />
+    <Compile Include="CompareTests.cs" />
+    <Compile Include="ConversionTests.cs" />
+    <Compile Include="RGBTests.cs" />
+    <Compile Include="ColorSchemeTests.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

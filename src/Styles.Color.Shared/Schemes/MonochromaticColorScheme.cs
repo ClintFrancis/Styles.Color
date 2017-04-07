@@ -28,12 +28,12 @@ namespace Styles.Color
 			base.SetColors(colors);
 		}
 
-		public static MonochromaticColorScheme FromColor (ColorRGB color, bool flatten)
+		public static MonochromaticColorScheme FromColor (ColorRGB color)
 		{
-			if (flatten) {
-				var labColors = ColorScheme.GenerateColors (24, 0, .66, .81);
-				color = color.NearestFlatColor (labColors);
-			}
+			//if (flatten) {
+			//	var labColors = ColorScheme.GenerateColors (24, 0, .66, .81);
+			//	color = color.NearestFlatColor (labColors);
+			//}
 
 			var lab = (ColorLAB)ColorLAB.FromColor (color);
 

@@ -38,6 +38,8 @@
     <Compile Include="Schemes\SplitComplementaryColorScheme.cs" />
     <Compile Include="Schemes\TriadicColorScheme.cs" />
     <Compile Include="Gradients\Gradient.cs" />
+    <Compile Include="Schemes\SquareColorScheme.cs" />
+    <Compile Include="Schemes\RectangleColorScheme.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\StylesCore\src\Styles.Shared\Styles.Shared.csproj">

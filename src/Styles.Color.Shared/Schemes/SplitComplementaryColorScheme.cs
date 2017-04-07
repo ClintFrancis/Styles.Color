@@ -19,45 +19,35 @@ namespace Styles.Color
 		{
 			var length = colors.Length;
 			if (length != 3)
-				throw new Exception ("Invalid range of colors supplied, split complementary color arrays must be 3 colors in length");
+				throw new Exception ("Invalid range of colors supplied, split complementary color arrays must contain 3 colors");
 
 			base.SetColors(colors);
 		}
 
-		public static SplitComplementaryColorScheme FromColor (ColorRGB color, bool flatten, int stepSize = 30)
+		public static SplitComplementaryColorScheme FromColor (ColorRGB color)
 		{
-			var hsb = ColorHSB.FromColor (color);
-			double hue = hsb.H;
-			double saturation = hsb.S;
-			double brightness = hsb.B;
+			var swatches = new Swatch[]{
+				new Swatch(PrimaryColorID, ColorHSL.Empty),
+				new Swatch(SecondaryColorID, ColorHSL.Empty),
+				new Swatch(TertiaryColorID, ColorHSL.Empty)
+			};
 
-			var primary = new Swatch(PrimaryColorID, color);
+			var primary = ColorHSL.FromColor (color);
+			var h = primary.H;
+			var s = primary.S;
+			var l = primary.L;
 
-			var secondary = new Swatch(SecondaryColorID, ColorHSB.ToColor (
-				hue: hue - (stepSize - 180),
-				saturation: saturation,
-				brightness: brightness
-			));
+			swatches[0].Color = primary;
 
-			var tertiary = new Swatch(TertiaryColorID ,ColorHSB.ToColor (
-				hue: hue + (stepSize + 180),
-				saturation: saturation,
-				brightness: brightness
-			));
+			var secondary = new ColorHSL(h, s, l);
+			secondary.H += 0.416666666666667;
+			swatches[1].Color = secondary;
 
-			if (flatten) {
-				throw new NotImplementedException("Lab colors still need to be generated correctly");
+			var tertiary = new ColorHSL(h, s, l);
+			tertiary.H = h + 0.5 + 0.0833333333333333;
+			swatches[2].Color = tertiary;
 
-				// HACK this needs to be set as a parameter
-				var labColors = ColorScheme.GenerateColors (24, 0, .66, .81);
-
-				//Flatten colors
-				primary.Color = primary.Color.NearestFlatColor (labColors);
-				secondary.Color = primary.Color.NearestFlatColor (labColors);
-				tertiary.Color = primary.Color.NearestFlatColor (labColors);
-			}
-
-			return new SplitComplementaryColorScheme (new Swatch [] { primary, secondary, tertiary });
+			return new SplitComplementaryColorScheme (swatches);
 		}
 
 

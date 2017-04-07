@@ -7,6 +7,8 @@ namespace Styles.Color
 		Complementary,
 		SplitComplementary,
 		Triadic,
+		Square,
+		Rectangle,
 		Monochromatic,
 		Custom
 	}
