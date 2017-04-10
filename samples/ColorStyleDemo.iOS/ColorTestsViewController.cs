@@ -112,11 +112,5 @@ namespace ColorStyleDemo.iOS
 
 			return new TestColor { Name = "XYZ", Value = color2.ToHex (), NativeValue = nativeValue };
 		}
-
-		void TestSyntax ()
-		{
-			var color = (ColorLAB)ColorLAB.FromColor (testColor);
-			var lab = color.GrayScale<ColorHSL> ();
-		}
 	}
 }

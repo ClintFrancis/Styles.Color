@@ -11,3 +11,4 @@ src/Styles.Color.Shared/obj
 src/Styles.Color.Shared/bin
 tests/SharedColorTests/bin
 tests/SharedColorTests/obj
+ColorStyleDemo.iOS.userprefs
