@@ -1,6 +1,14 @@
 ﻿/* Swatches */
 swatches{
 	--default-text-color: #464646;
+	--color-stop1: #00CACD;
+	--color-stop2: #00A548;
+}
+
+/* Gradients */
+gradients{
+	--gradient-linear-test: linear-gradient(-90, color-stop1, color-stop2);
+	--gradient-radial-test: radial-gradient(color-stop1 20%, color-stop2 60%);	
 }
 
 

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Styles.Color;
 
 namespace Styles.Color
 {
@@ -8,18 +7,10 @@ namespace Styles.Color
 	{
 		internal const string PrimaryColorID = "primary";
 
-		// TODO store colors by name, have each color scheme name their steps as a constant
 		public Dictionary<string, IRgb> Colors { get; set; } = new Dictionary<string, IRgb>();
-
-		#region OLD Parameters
 		public ColorSchemeType Type { get; internal set; }
 		public string Name { get; set; }
-		//public int PrimaryIndex { get; internal set; }
-		//public IRgb [] Colors { get; set; }
-
 		public IRgb PrimaryColor { get { return Colors [PrimaryColorID]; } }
-
-		#endregion
 
 		#region Methods
 

@@ -26,7 +26,7 @@ namespace ColorStyleDemo.iOS
 		{
 			base.ViewDidLoad ();
 
-			testColor = ColorRGB.FromHex ("#745ec4");
+			testColor = ColorRGB.FromHex ("#745EC4");
 
 			var builder = new StringBuilder ();
 			builder.AppendLine ("MAIN COLOR: " + testColor.ToHex ());
