@@ -118,7 +118,7 @@ namespace Styles.Color
 			var startPoint = new CGPoint(points[0] * bounds.Width, points[1] * bounds.Height);
 			var endPoint = new CGPoint(points[2] * bounds.Width, points[3] * bounds.Height);
 
-			ctx.DrawLinearGradient(grad, startPoint, endPoint, CGGradientDrawingOptions.DrawsAfterEndLocation);
+			ctx.DrawLinearGradient(grad, startPoint, endPoint, CGGradientDrawingOptions.DrawsBeforeStartLocation | CGGradientDrawingOptions.DrawsAfterEndLocation);
 			grad.Dispose();
 			colorSpace.Dispose();
 		}
@@ -133,7 +133,7 @@ namespace Styles.Color
 			var gradCenter = new CGPoint(bounds.Width * target.Location.X, bounds.Height * target.Location.Y);
 			var gradRadius = (float)Math.Min(bounds.Size.Width * target.ScaleMultiplier.X, bounds.Size.Height * target.ScaleMultiplier.Y);
 
-			ctx.DrawRadialGradient(grad, gradCenter, 0, gradCenter, gradRadius, CGGradientDrawingOptions.DrawsAfterEndLocation);
+			ctx.DrawRadialGradient(grad, gradCenter, 0, gradCenter, gradRadius, CGGradientDrawingOptions.DrawsBeforeStartLocation | CGGradientDrawingOptions.DrawsAfterEndLocation);
 			grad.Dispose();
 			colorSpace.Dispose();
 		}
@@ -145,8 +145,9 @@ namespace Styles.Color
 
 		public static void Draw(this MultiGradient target, CGContext ctx, CGRect bounds)
 		{
-			foreach (var gradient in target.Gradients)
+			for (int i = 0; i < target.Gradients.Length; i++)
 			{
+				var gradient = target.Gradients[i];
 				switch (gradient.Type)
 				{
 					case GradientType.Linear:

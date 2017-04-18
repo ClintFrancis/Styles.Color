@@ -18,30 +18,21 @@ namespace ColorStyleDemo.iOS
 		{
 			base.ViewDidLoad();
 
-			var frame = View.Frame;
-
-			var gradientBox = new UIView(new CGRect(0, 60, frame.Width, 200)); ;
-			Add(gradientBox);
+			var frame = new CGRect(0, 60, View.Frame.Width, 200);
 
 			var gradient1 = new Gradient(
-				new IRgb[]{
-					ColorSwatches.DeepOrange,
-					ColorSwatches.Yellow
-				}
+				new IRgb[]{ ColorSwatches.DeepOrange, ColorSwatches.Yellow }
 			);
 
 			var gradient2 = new Gradient(
-				new IRgb[]{
-					ColorSwatches.FlatWhite,
-					ColorSwatches.Red.WithAlpha(0)
-				}
+				new IRgb[]{ ColorSwatches.DeepOrange, ColorSwatches.Yellow.WithAlpha(0) }
 			);
 
 			var multiGradient = new MultiGradient()
 			{
 				Gradients = new Gradient[]{
-					gradient1.ToLinear(),
-					gradient2.ToRadial()
+					gradient1.ToLinear(45),
+					gradient2.ToRadial(1,1)
 				}
 			};
 
@@ -52,11 +43,23 @@ namespace ColorStyleDemo.iOS
 			//	.ToLinear()
 			//	.ToNativeView(new CGRect(0, gradientBox.Frame.Height, gradientBox.Frame.Width, gradientBox.Frame.Height));
 
-
-
-			var gradientView = multiGradient.ToNativeView(gradientBox.Bounds);
-
+			var gradientView = multiGradient.ToNativeView(frame);
 			Add(gradientView);
+
+			var steps = 8;
+			var swatchSize = View.Frame.Width / steps;
+
+			var adjusted = gradient1.ShiftHues(0);
+			var schemeFromGradient = adjusted.CreateColorPalette(steps);
+			for (int i = 0; i < schemeFromGradient.Length; i++)
+			{
+				var color = (ColorRGB)schemeFromGradient[i];
+				var swatch = new UIView(new CGRect(i * swatchSize, 300, swatchSize, swatchSize))
+				{
+					BackgroundColor = color.ToNative()
+				};
+				Add(swatch);
+			}
 		}
 	}
 }

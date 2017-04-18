@@ -8,25 +8,53 @@ namespace Styles.Color
 
 	public enum GradientType
 	{
+		None,
 		Linear,
 		Radial,
 		Multi,
 		Custom
 	}
 
+	public class ColorOffset
+	{
+		public IRgb Color { get; set;}
+		public double Offset { get; set;}
+
+		public ColorOffset(IRgb color, double offset)
+		{
+			Color = color;
+			Offset = offset;
+		}	
+	}
+
 	public class Gradient
 	{
-		public GradientType Type { get; private set;}
+		public GradientType Type { get; protected set;}
 
 		public IRgb[] Colors { get; set; }
 
 		public float[] Locations { get; set; } = new float[0];
 
+		// TODO Reversed
 		public bool Reversed { get; set; }
 
+		// TODO repeating
 		public bool Repeating { get; set; }	
 
+		// TODO ScaleMultipliers
 		public PointF ScaleMultiplier { get; set; } = new PointF(1f, 1f);
+
+		public ColorOffset[] Offsets 
+		{
+			get{
+				var offsets = new ColorOffset[Colors.Length];
+				for (int i = 0; i< Colors.Length; i++)
+				{
+					offsets[i] = new ColorOffset(Colors[i], Locations[i]);
+				}
+				return offsets;
+			}
+		}
 
 		public Gradient(IRgb[] colors)
 		{
@@ -35,6 +63,12 @@ namespace Styles.Color
 
 		public void Update()
 		{
+			// todo check for colors == 2 as well
+			if (Colors.Length < 2)
+			{
+				throw new Exception("Gradients must contain a minimum of two colors");
+			}
+
 			if (Locations.Length == 0)
 			{
 				float stepSize = 1f / (Colors.Length - 1f);
@@ -67,32 +101,24 @@ namespace Styles.Color
 			return new RadialGradient(this.Colors, locationX, locationY){ Locations = this.Locations };
 		}
 
-		public void ShiftHues(double value)
+		public Gradient ShiftHues(double value)
 		{
-			throw new NotImplementedException();	
-		}
+			var target = this.Clone();
+			for (int i = 0; i < target.Colors.Length; i++)
+			{
+				target.Colors[i] = target.Colors[i].AdjustHue(value);
+			}
 
-		/*
-		Picks up and returns the color at the given scale by interpolating the colors.
-
-	   For example, given this color array `[red, green, blue]` and a scale of `0.25` you will get a kaki color.
-
-	   - Parameter scale: A float value between 0.0 and 1.0.
-	   - Parameter colorspace: The color space used to mix the colors. By default it uses the RBG color space.
-	   - Returns: A DynamicColor object corresponding to the color at the given scale.
-	   */
-		public IRgb GetColorAt(float percent){
-			throw new NotImplementedException();
+			return target;
 		}
 
 		/// <summary>
-		/// Returns a color palette of x steps by selecting equidistant colors.
+		/// Returns the color at the given scale by interpolating the colors.
 		/// </summary>
-		/// <returns>Array of IColorSpace colors</returns>
-		/// <param name="steps">The number of color steps to return. 2 by default</param>
-		/// <typeparam name="T">The target ColorSpace type</typeparam>
-		public T[] CreateColorPalette<T>(int steps = 2) where T : IColorSpace {
-			throw new NotImplementedException();
+		/// <returns>IRgb<see cref="T:Styles.IRgb"/>.</returns>
+		/// <param name="percent">Percent</param>
+		public IRgb GetColorAt(double percent){
+			return GradientUtils.GetColorByOffset(this, percent);
 		}
 
 		/// <summary>
@@ -102,7 +128,26 @@ namespace Styles.Color
 		/// <param name="steps">The number of color steps to return. 2 by default</param>
 		public IRgb[] CreateColorPalette(int steps = 2)
 		{
-			throw new NotImplementedException();
+			var stepSize = 1.0 / steps;
+			var colorPalette = new IRgb[steps];
+			for (int i = 0; i < steps; i++)
+			{
+				var step = stepSize * i;
+				colorPalette[i] = GradientUtils.GetColorByOffset(this, step);
+			}
+
+			return colorPalette;
+		}
+
+		public Gradient Clone()
+		{
+			return new Gradient((IRgb[])Colors.Clone())
+			{
+				Locations = this.Locations,
+				Reversed = this.Reversed,
+				Repeating = this.Repeating,
+				ScaleMultiplier = this.ScaleMultiplier
+			};
 		}
 	}
 
@@ -114,12 +159,19 @@ namespace Styles.Color
 		public LinearGradient(IRgb[] colors, double rotation):base(colors)
 		{
 			Rotation = rotation;
+			Type = GradientType.Linear;
 		}
 
-		//public static LinearGradient FromColors<T>(IColorSpace[] colors, double Orientation)
-		//{
-		//	throw new NotImplementedException();
-		//}
+		new public LinearGradient Clone()
+		{
+			return new LinearGradient((IRgb[])Colors.Clone(), this.Rotation)
+			{
+				Locations = this.Locations,
+				Reversed = this.Reversed,
+				Repeating = this.Repeating,
+				ScaleMultiplier = this.ScaleMultiplier
+			};
+		}
 	}
 
 	public class RadialGradient:Gradient
@@ -129,22 +181,25 @@ namespace Styles.Color
 		public RadialGradient(IRgb[] colors):base(colors)
 		{
 			Location = new PointF(0, 0);
+			Type = GradientType.Radial;
 		}
 
 		public RadialGradient(IRgb[] colors, float locationX, float locationY):base(colors)
 		{
 			Location = new PointF(locationX, locationY);
+			Type = GradientType.Radial;
 		}
 
-		//public RadialGradient(IRgb[] colors, PointF location):base(colors)
-		//{
-		//	Location = location;
-		//}
-
-		//public static RadialGradient FromColors<T>(IColorSpace[] colors, PointF center)
-		//{
-		//	throw new NotImplementedException();
-		//}
+		new public RadialGradient Clone()
+		{
+			return new RadialGradient((IRgb[])Colors.Clone(), this.Location.X, this.Location.Y)
+			{
+				Locations = this.Locations,
+				Reversed = this.Reversed,
+				Repeating = this.Repeating,
+				ScaleMultiplier = this.ScaleMultiplier
+			};
+		}
 	}
 
 	public class MultiGradient
