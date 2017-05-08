@@ -41,6 +41,10 @@
     <Compile Include="Schemes\SquareColorScheme.cs" />
     <Compile Include="Schemes\RectangleColorScheme.cs" />
     <Compile Include="Gradients\GradientUtils.cs" />
+    <Compile Include="Gradients\EllipticalGradient.cs" />
+    <Compile Include="Gradients\RadialGradient.cs" />
+    <Compile Include="Gradients\LinearGradient.cs" />
+    <Compile Include="Gradients\MultiGradient.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\StylesCore\src\Styles.Shared\Styles.Shared.csproj">

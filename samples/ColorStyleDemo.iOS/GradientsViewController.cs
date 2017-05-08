@@ -10,6 +10,10 @@ namespace ColorStyleDemo.iOS
 {
     public partial class GradientsViewController : UIViewController
     {
+        Gradient gradient1;
+        Gradient gradient2;
+        CGRect frame;
+
         public GradientsViewController(IntPtr handle) : base(handle)
         {
         }
@@ -18,35 +22,70 @@ namespace ColorStyleDemo.iOS
         {
             base.ViewDidLoad();
 
-            var frame = new CGRect(0, 60, View.Frame.Width, 200);
+            frame = new CGRect(0, 60, View.Frame.Width, 200);
 
-            var gradient1 = new Gradient(
+            gradient1 = new Gradient(
                 new IRgb[] { ColorSwatches.DeepOrange, ColorSwatches.Yellow }
             );
 
-            var gradient2 = new Gradient(
+            gradient2 = new Gradient(
                 new IRgb[] { ColorSwatches.DeepOrange, ColorSwatches.Yellow.WithAlpha(0) }
             );
-            //gradient2.SetFrame(0, 0, (float)frame.Width / 2, (float)frame.Height);
 
+            DrawEllipticalGradient();
+            DrawGradientSteps();
+        }
+
+        void DrawLinearGradient()
+        {
+            var linearLayer = gradient1.ToLinear(45).ToNativeLayer(frame);
+            View.Layer.InsertSublayer(linearLayer, 0);
+        }
+
+        void DrawRadialGradient()
+        {
+            var gradientView = gradient1
+              .ToRadial()
+              .ToNativeView(new CGRect(frame.X, frame.Y, frame.Width, frame.Height));
+
+            Add(gradientView);
+        }
+
+        void DrawEllipticalGradient()
+        {
+            gradient1.SetScale(1f, .5f);
+            gradient1.SetFrame((float)(frame.Width / 2f - frame.Height / 2f), 0, (float)frame.Height, (float)frame.Height);
+            gradient1.DrawingOptions = GradientDrawingOptions.BeforeStartLocation;
+
+            var gradientView = gradient1
+              .ToEllipse()
+              .ToNativeView(new CGRect(frame.X, frame.Y, frame.Width, frame.Height));
+
+            Add(gradientView);
+
+            // TEMP box for reference
+            var box = new UIView(new CGRect((frame.Width / 2f - frame.Height / 2f), frame.Y, (float)frame.Height, (float)frame.Height));
+            box.Layer.BorderColor = UIColor.Black.CGColor;
+            box.Layer.BorderWidth = 1f;
+            Add(box);
+        }
+
+        void DrawMultiGradient()
+        {
             var multiGradient = new MultiGradient()
             {
                 Gradients = new Gradient[]{
                     gradient1.ToLinear(45),
-                    gradient2.ToRadial(1,0)
+                    gradient2.ToEllipse(.5f,.5f, 45)
                 }
             };
 
-            //var linearLayer = gradient.ToLinear(45).ToNativeLayer(gradientBox.Bounds);
-            //gradientBox.Layer.InsertSublayer(linearLayer, 0);
-
-            //var gradientView = gradient1
-            //	.ToLinear()
-            //	.ToNativeView(new CGRect(0, gradientBox.Frame.Height, gradientBox.Frame.Width, gradientBox.Frame.Height));
-
             var gradientView = multiGradient.ToNativeView(frame);
             Add(gradientView);
+        }
 
+        void DrawGradientSteps()
+        {
             var steps = 8;
             var swatchSize = View.Frame.Width / steps;
 

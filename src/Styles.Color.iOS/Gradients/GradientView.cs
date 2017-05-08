@@ -10,6 +10,7 @@ namespace Styles.Color
 
         LinearGradient linearGradient;
         RadialGradient radialGradient;
+        EllipticalGradient ellipticalGradient;
         MultiGradient multiGradient;
 
         public GradientView(LinearGradient gradient)
@@ -23,6 +24,13 @@ namespace Styles.Color
         {
             this.radialGradient = gradient;
             Type = GradientType.Radial;
+            BackgroundColor = UIColor.Clear;
+        }
+
+        public GradientView(EllipticalGradient gradient)
+        {
+            this.ellipticalGradient = gradient;
+            Type = GradientType.Ellipse;
             BackgroundColor = UIColor.Clear;
         }
 
@@ -56,6 +64,9 @@ namespace Styles.Color
                         break;
                     case GradientType.Radial:
                         radialGradient.Draw(ctx, rect);
+                        break;
+                    case GradientType.Ellipse:
+                        ellipticalGradient.Draw(ctx, rect);
                         break;
                     case GradientType.Multi:
                         multiGradient.Draw(ctx, rect);

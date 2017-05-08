@@ -11,8 +11,17 @@ namespace Styles.Color
         None,
         Linear,
         Radial,
+        Ellipse,
         Multi,
         Custom
+    }
+
+    [Flags]
+    public enum GradientDrawingOptions : uint
+    {
+        None,
+        BeforeStartLocation,
+        AfterEndLocation
     }
 
     public class ColorOffset
@@ -29,6 +38,8 @@ namespace Styles.Color
 
     public class Gradient
     {
+        public GradientDrawingOptions DrawingOptions { get; set; } = GradientDrawingOptions.BeforeStartLocation | GradientDrawingOptions.AfterEndLocation;
+
         // TODO Implement in Bait & Switch
         public RectangleF Frame { get; set; }
 
@@ -44,8 +55,8 @@ namespace Styles.Color
         // TODO repeating
         public bool Repeating { get; set; }
 
-        // TODO ScaleMultipliers
-        public PointF ScaleMultiplier { get; set; } = new PointF(1f, 1f);
+        // TODO Scale
+        public PointF Scale { get; set; } = new PointF(1f, 1f);
 
         public ColorOffset[] Offsets
         {
@@ -69,6 +80,12 @@ namespace Styles.Color
         public void SetFrame(float x, float y, float width, float height)
         {
             this.Frame = new RectangleF(x, y, width, height);
+        }
+
+        // Work around method while not working in bait and switch
+        public void SetScale(float scaleX, float scaleY)
+        {
+            this.Scale = new PointF(scaleX, scaleY);
         }
 
         public void Update()
@@ -101,15 +118,16 @@ namespace Styles.Color
             throw new NotImplementedException();
         }
 
-        public LinearGradient ToLinear(double orientation = 0)
+        public LinearGradient ToLinear(double rotation = 0)
         {
-            return new LinearGradient(this.Colors, orientation)
+            return new LinearGradient(this.Colors, rotation)
             {
                 Locations = this.Locations,
                 Frame = this.Frame,
                 Reversed = this.Reversed,
                 Repeating = this.Repeating,
-                ScaleMultiplier = this.ScaleMultiplier
+                Scale = this.Scale,
+                DrawingOptions = this.DrawingOptions
             };
         }
 
@@ -121,7 +139,22 @@ namespace Styles.Color
                 Frame = this.Frame,
                 Reversed = this.Reversed,
                 Repeating = this.Repeating,
-                ScaleMultiplier = this.ScaleMultiplier
+                Scale = this.Scale,
+                DrawingOptions = this.DrawingOptions
+            };
+        }
+
+        public EllipticalGradient ToEllipse(float locationX = .5f, float locationY = .5f, double rotation = 0)
+        {
+            return new EllipticalGradient(this.Colors, locationX, locationY)
+            {
+                Locations = this.Locations,
+                Frame = this.Frame,
+                Reversed = this.Reversed,
+                Repeating = this.Repeating,
+                Scale = this.Scale,
+                Rotation = rotation,
+                DrawingOptions = this.DrawingOptions
             };
         }
 
@@ -171,72 +204,9 @@ namespace Styles.Color
                 Locations = this.Locations,
                 Reversed = this.Reversed,
                 Repeating = this.Repeating,
-                ScaleMultiplier = this.ScaleMultiplier,
+                Scale = this.Scale,
                 Frame = this.Frame
             };
         }
-    }
-
-    public class LinearGradient : Gradient
-    {
-        // -360 -> 0 <- 360
-        public double Rotation { get; set; }
-
-        public LinearGradient(IRgb[] colors, double rotation) : base(colors)
-        {
-            Rotation = rotation;
-            Type = GradientType.Linear;
-        }
-
-        new public LinearGradient Clone()
-        {
-            return new LinearGradient((IRgb[])Colors.Clone(), this.Rotation)
-            {
-                Locations = this.Locations,
-                Reversed = this.Reversed,
-                Repeating = this.Repeating,
-                ScaleMultiplier = this.ScaleMultiplier
-            };
-        }
-    }
-
-    public class RadialGradient : Gradient
-    {
-        // TODO Implement in Bait & Switch
-        public PointF Location { get; set; }
-
-        public RadialGradient(IRgb[] colors) : base(colors)
-        {
-            Location = new PointF(0, 0);
-            Type = GradientType.Radial;
-        }
-
-        public RadialGradient(IRgb[] colors, float locationX, float locationY) : base(colors)
-        {
-            Location = new PointF(locationX, locationY);
-            Type = GradientType.Radial;
-        }
-
-        public RadialGradient(IRgb[] colors, PointF location) : base(colors)
-        {
-            Location = location;
-            Type = GradientType.Radial;
-        }
-
-        new public RadialGradient Clone()
-        {
-            return new RadialGradient((IRgb[])Colors.Clone(), this.Location.X, this.Location.Y)
-            {
-                Locations = this.Locations,
-                Reversed = this.Reversed,
-                Repeating = this.Repeating,
-                ScaleMultiplier = this.ScaleMultiplier
-            };
-        }
-    }
-
-    public class MultiGradient
-    {
-        public Gradient[] Gradients { get; set; } // Do I need to bother with this? could I just Set this up as an extension to Gradient[]'s?
     }
 }
