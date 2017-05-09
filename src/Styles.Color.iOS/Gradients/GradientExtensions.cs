@@ -129,18 +129,13 @@ namespace Styles.Color
             var endPoint = new CGPoint(points[2] * bounds.Width, points[3] * bounds.Height);
             var drawingFlags = GetGradientFlags(target);
 
-            // Crop to frame
+            ctx.SaveState();
+
             if (!target.Frame.IsEmpty)
-            {
-                ctx.SaveState();
-                ctx.ClipToRect(clippingBounds);
-                ctx.DrawLinearGradient(grad, startPoint, endPoint, drawingFlags);
-                ctx.RestoreState();
-            }
-            else
-            {
-                ctx.DrawLinearGradient(grad, startPoint, endPoint, drawingFlags);
-            }
+                ctx.ClipToRect(new CGRect(bounds.X + clippingBounds.X, bounds.Y + clippingBounds.Y, clippingBounds.Width, clippingBounds.Height));
+
+            ctx.DrawLinearGradient(grad, startPoint, endPoint, drawingFlags);
+            ctx.RestoreState();
 
             grad.Dispose();
             colorSpace.Dispose();
@@ -157,22 +152,19 @@ namespace Styles.Color
             var gradColors = GenerateGradientColors(target.Colors);
             var colorSpace = CGColorSpace.CreateDeviceRGB();
             var grad = new CGGradient(colorSpace, gradColors, ConvertToNativeArray(target.Locations));
-            var gradCenter = new CGPoint(bounds.X + (bounds.Width * target.Location.X), bounds.Y + (bounds.Height * target.Location.Y));
-            var gradRadius = (float)Math.Min(bounds.Size.Width / 2, bounds.Size.Height / 2);
+            var gradCenter = new CGPoint((bounds.Width * target.Location.X), (bounds.Height * target.Location.Y));
+            var gradRadius = (nfloat)Math.Min(bounds.Size.Width / 2, bounds.Size.Height / 2);
             var drawingFlags = GetGradientFlags(target);
+            var scaleT = CGAffineTransform.MakeScale(target.Scale.X, target.Scale.Y);
 
-            // Crop to frame
+            ctx.SaveState();
             if (!target.Frame.IsEmpty)
-            {
-                ctx.SaveState();
-                ctx.ClipToRect(clippingBounds);
-                ctx.DrawRadialGradient(grad, gradCenter, 0, gradCenter, gradRadius, drawingFlags);
-                ctx.RestoreState();
-            }
-            else
-            {
-                ctx.DrawRadialGradient(grad, gradCenter, 0, gradCenter, gradRadius, drawingFlags);
-            }
+                ctx.ClipToRect(new CGRect(bounds.X + clippingBounds.X, bounds.Y + clippingBounds.Y, clippingBounds.Width, clippingBounds.Height));
+
+            ctx.TranslateCTM(bounds.X + gradCenter.X, bounds.Y + gradCenter.Y);
+            ctx.ScaleCTM(scaleT.xx, scaleT.yy);
+            ctx.DrawRadialGradient(grad, CGPoint.Empty, 0, CGPoint.Empty, gradRadius, drawingFlags);
+            ctx.RestoreState();
 
             grad.Dispose();
             colorSpace.Dispose();
@@ -189,78 +181,30 @@ namespace Styles.Color
             var gradColors = GenerateGradientColors(target.Colors);
             var colorSpace = CGColorSpace.CreateDeviceRGB();
             var grad = new CGGradient(colorSpace, gradColors, ConvertToNativeArray(target.Locations));
-            var gradCenter = new CGPoint(bounds.X + (bounds.Width * target.Location.X), bounds.Y + (bounds.Height * target.Location.Y));
-            var gradRadius = (float)Math.Min(bounds.Size.Width / 2, bounds.Size.Height / 2);
+            var gradCenter = new CGPoint((bounds.Width * target.Location.X), (bounds.Height * target.Location.Y));
+            var gradRadius = (nfloat)Math.Min(bounds.Size.Width / 2, bounds.Size.Height / 2);
             var drawingFlags = GetGradientFlags(target);
+            var scaleT = CGAffineTransform.MakeScale(target.Scale.X, target.Scale.Y);
 
-            ///--------------------
-
-            // todo if scaling block
-
-            // Scaling transformation and keeping track of the inverse
-            CGAffineTransform scaleT = CGAffineTransform.MakeScale(target.Scale.X, target.Scale.Y);
-            CGAffineTransform invScaleT = scaleT.Invert();
-
-            // Extract the Sx and Sy elements from the inverse matrix
-            // (See the Quartz documentation for the math behind the matrices)
-            CGPoint invS = new CGPoint(invScaleT.xx, invScaleT.yy);
-
-            // Rotate the context
-            //nfloat radians = (nfloat)(target.Rotation * (Math.PI / 180));
-            //ctx.RotateCTM(radians);
-
-            //var offset = new CGPoint(gradCenter.X * invS.X - gradCenter.X, gradCenter.Y * invS.Y - gradCenter.Y);
-            //bounds.X += offset.X;
-            //bounds.Y += offset.Y;
-
-            // Transform center of the gradient with the inverse
-            gradCenter = new CGPoint(gradCenter.X * invS.X, gradCenter.Y * invS.Y); // Need to move the context not the gradient!
-            //var radius = (bounds.Width / 2f) * invS.X;
-
-            // Draw the gradient with the scale transform on the context
-            ctx.ScaleCTM(scaleT.xx, scaleT.yy);
-
-            ///--------------------
-
-
-            // Crop to frame
+            ctx.SaveState();
             if (!target.Frame.IsEmpty)
-            {
-                ctx.SaveState();
-                ctx.ClipToRect(clippingBounds);
-                ctx.DrawRadialGradient(grad, gradCenter, 0, gradCenter, gradRadius, drawingFlags);
-                // TODO resposition the view if the scale was different
-                ctx.RestoreState();
-            }
-            else
-            {
-                ctx.DrawRadialGradient(grad, gradCenter, 0, gradCenter, gradRadius, drawingFlags);
-                // TODO resposition the view if the scale was different
-            }
+                ctx.ClipToRect(new CGRect(bounds.X + clippingBounds.X, bounds.Y + clippingBounds.Y, clippingBounds.Width, clippingBounds.Height));
 
-            // Reset the context
-            ctx.ScaleCTM(invS.X, invS.Y);
+            ctx.TranslateCTM(bounds.X + gradCenter.X, bounds.Y + gradCenter.Y);
+            ctx.RotateCTM((nfloat)(target.Rotation * (Math.PI / 180)));
+            ctx.ScaleCTM(scaleT.xx, scaleT.yy);
+            ctx.DrawRadialGradient(grad, CGPoint.Empty, 0, CGPoint.Empty, gradRadius, drawingFlags);
+            ctx.RestoreState();
 
             grad.Dispose();
             colorSpace.Dispose();
         }
 
-        static CGGradientDrawingOptions GetGradientFlags(Gradient target)
-        {
-            uint values = (uint)target.DrawingOptions;
-            return (CGGradientDrawingOptions)values;
-        }
-
         public static void Draw(this Gradient[] items, CGContext ctx, CGRect bounds)
         {
-            throw new NotImplementedException();
-        }
-
-        public static void Draw(this MultiGradient target, CGContext ctx, CGRect bounds)
-        {
-            for (int i = 0; i < target.Gradients.Length; i++)
+            for (int i = 0; i < items.Length; i++)
             {
-                var gradient = target.Gradients[i];
+                var gradient = items[i];
                 switch (gradient.Type)
                 {
                     case GradientType.Linear:
@@ -279,6 +223,17 @@ namespace Styles.Color
                         throw new NotImplementedException("Multigradients does not support the supplied gradient type: " + gradient.Type);
                 }
             }
+        }
+
+        public static void Draw(this MultiGradient target, CGContext ctx, CGRect bounds)
+        {
+            target.Gradients.Draw(ctx, bounds);
+        }
+
+        static CGGradientDrawingOptions GetGradientFlags(Gradient target)
+        {
+            uint values = (uint)target.DrawingOptions;
+            return (CGGradientDrawingOptions)values;
         }
         #endregion
     }

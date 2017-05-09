@@ -12,6 +12,7 @@ namespace ColorStyleDemo.iOS
     {
         Gradient gradient1;
         Gradient gradient2;
+        Gradient gradient3;
         CGRect frame;
 
         public GradientsViewController(IntPtr handle) : base(handle)
@@ -29,10 +30,14 @@ namespace ColorStyleDemo.iOS
             );
 
             gradient2 = new Gradient(
-                new IRgb[] { ColorSwatches.DeepOrange, ColorSwatches.Yellow.WithAlpha(0) }
+                new IRgb[] { ColorSwatches.DeepOrange, ColorSwatches.DeepOrange.WithAlpha(.4f), ColorSwatches.DeepOrange.WithAlpha(0) }
             );
 
-            DrawEllipticalGradient();
+            gradient3 = new Gradient(
+                new IRgb[] { ColorSwatches.FlatWhite, ColorSwatches.Yellow.WithAlpha(0) }
+            );
+
+            DrawMultiGradient();
             DrawGradientSteps();
         }
 
@@ -53,30 +58,26 @@ namespace ColorStyleDemo.iOS
 
         void DrawEllipticalGradient()
         {
-            gradient1.SetScale(1f, .5f);
+            gradient1.SetScale(.25f, 1f);
             gradient1.SetFrame((float)(frame.Width / 2f - frame.Height / 2f), 0, (float)frame.Height, (float)frame.Height);
             gradient1.DrawingOptions = GradientDrawingOptions.BeforeStartLocation;
 
             var gradientView = gradient1
-              .ToEllipse()
+                .ToEllipse(0, .5f, 45)
               .ToNativeView(new CGRect(frame.X, frame.Y, frame.Width, frame.Height));
 
             Add(gradientView);
-
-            // TEMP box for reference
-            var box = new UIView(new CGRect((frame.Width / 2f - frame.Height / 2f), frame.Y, (float)frame.Height, (float)frame.Height));
-            box.Layer.BorderColor = UIColor.Black.CGColor;
-            box.Layer.BorderWidth = 1f;
-            Add(box);
         }
 
         void DrawMultiGradient()
         {
+            gradient2.SetScale(3f, .5f);
             var multiGradient = new MultiGradient()
             {
                 Gradients = new Gradient[]{
                     gradient1.ToLinear(45),
-                    gradient2.ToEllipse(.5f,.5f, 45)
+                    gradient2.ToEllipse(.4f, 1f, 5),
+                    gradient3.ToRadial(1f, .5f)
                 }
             };
 
