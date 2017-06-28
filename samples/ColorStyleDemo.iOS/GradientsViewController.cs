@@ -30,7 +30,7 @@ namespace ColorStyleDemo.iOS
             );
 
             gradient2 = new Gradient(
-                new IRgb[] { ColorSwatches.DeepOrange, ColorSwatches.DeepOrange.WithAlpha(.4f), ColorSwatches.DeepOrange.WithAlpha(0) }
+                new IRgb[] { ColorSwatches.FlatWhite, ColorSwatches.FlatWhite.WithAlpha(.4f), ColorSwatches.Yellow.WithAlpha(0) }
             );
 
             gradient3 = new Gradient(
@@ -71,13 +71,13 @@ namespace ColorStyleDemo.iOS
 
         void DrawMultiGradient()
         {
-            gradient2.SetScale(3f, .5f);
+            gradient2.SetScale(.4f, 1.6f);
             var multiGradient = new MultiGradient()
             {
                 Gradients = new Gradient[]{
                     gradient1.ToLinear(45),
-                    gradient2.ToEllipse(.4f, 1f, 5),
-                    gradient3.ToRadial(1f, .5f)
+                    gradient2.ToEllipse(1f, .5f, 0),
+                    gradient3.ToRadial(.98f, .5f)
                 }
             };
 

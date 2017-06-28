@@ -75,7 +75,6 @@ namespace Styles.Color
 
         public static GradientView ToNativeView(this Gradient[] targets, CGRect frame)
         {
-
             return new GradientView(targets) { Frame = frame };
         }
 
