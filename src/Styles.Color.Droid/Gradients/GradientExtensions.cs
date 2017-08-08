@@ -52,7 +52,7 @@ namespace Styles.Color
 
         public static Shader Draw(this RadialGradient target, RectF bounds)
         {
-            var center = new PointF((bounds.Width() * target.Location.X), (bounds.Height() * target.Location.Y));
+            var center = new PointF((bounds.Width() * target.Center.X), (bounds.Height() * target.Center.Y));
             var radius = (float)Math.Min(bounds.Width() / 2f, bounds.Height() / 2f);
 
             return target.Draw(center, radius);
@@ -76,7 +76,7 @@ namespace Styles.Color
         {
             target.Update();
 
-            var center = new PointF((bounds.Width() * target.Location.X), (bounds.Height() * target.Location.Y));
+            var center = new PointF((bounds.Width() * target.Center.X), (bounds.Height() * target.Center.Y));
             var radius = (float)Math.Min(bounds.Width() / 2f, bounds.Height() / 2f);
 
             var grad = new Android.Graphics.RadialGradient(

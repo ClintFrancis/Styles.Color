@@ -175,7 +175,7 @@ namespace Styles.Color
             var gradColors = GenerateGradientColors(target.Colors);
             var colorSpace = CGColorSpace.CreateDeviceRGB();
             var grad = new CGGradient(colorSpace, gradColors, ConvertToNativeArray(target.Locations));
-            var gradCenter = new CGPoint((bounds.Width * target.Location.X), (bounds.Height * target.Location.Y));
+            var gradCenter = new CGPoint((bounds.Width * target.Center.X), (bounds.Height * target.Center.Y));
             var gradRadius = (nfloat)Math.Min(bounds.Size.Width / 2, bounds.Size.Height / 2);
             var drawingFlags = GetGradientFlags(target);
             var scaleT = CGAffineTransform.MakeScale(target.Scale.X, target.Scale.Y);
@@ -204,7 +204,7 @@ namespace Styles.Color
             var gradColors = GenerateGradientColors(target.Colors);
             var colorSpace = CGColorSpace.CreateDeviceRGB();
             var grad = new CGGradient(colorSpace, gradColors, ConvertToNativeArray(target.Locations));
-            var gradCenter = new CGPoint((bounds.Width * target.Location.X), (bounds.Height * target.Location.Y));
+            var gradCenter = new CGPoint((bounds.Width * target.Center.X), (bounds.Height * target.Center.Y));
             var gradRadius = (nfloat)Math.Min(bounds.Size.Width / 2, bounds.Size.Height / 2);
             var drawingFlags = GetGradientFlags(target);
             var scaleT = CGAffineTransform.MakeScale(target.Scale.X, target.Scale.Y);

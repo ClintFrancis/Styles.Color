@@ -39,7 +39,8 @@ namespace ColorStyleDemo.iOS
 
             //DrawMultiGradient();
             //DrawGradientSteps();
-            DrawRadialGradientLayer();
+            //DrawRadialGradientLayer();
+            DrawRadialGradient();
         }
 
         void DrawLinearGradient()
@@ -50,8 +51,11 @@ namespace ColorStyleDemo.iOS
 
         void DrawRadialGradient()
         {
-            var gradientView = gradient1
-              .ToRadial()
+            var radialGradient = gradient1.ToRadial();
+            radialGradient.Center = new Styles.Drawing.PointF(0, 0.5f);
+
+
+            var gradientView = radialGradient
               .ToNativeView(new CGRect(frame.X, frame.Y, frame.Width, frame.Height));
 
             Add(gradientView);

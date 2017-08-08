@@ -1,5 +1,4 @@
-﻿using System.Drawing;
-namespace Styles.Color
+﻿namespace Styles.Color
 {
     public class MultiGradient
     {
