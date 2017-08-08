@@ -54,6 +54,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Gradients\GradientExtensions.cs" />
     <Compile Include="Gradients\GradientView.cs" />
+    <Compile Include="Gradients\GradientLayer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Styles.Color.Shared\Styles.Color.Shared.csproj">

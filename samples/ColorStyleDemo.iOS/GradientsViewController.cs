@@ -37,8 +37,9 @@ namespace ColorStyleDemo.iOS
                 new IRgb[] { ColorSwatches.FlatWhite, ColorSwatches.Yellow.WithAlpha(0) }
             );
 
-            DrawMultiGradient();
-            DrawGradientSteps();
+            //DrawMultiGradient();
+            //DrawGradientSteps();
+            DrawRadialGradientLayer();
         }
 
         void DrawLinearGradient()
@@ -83,6 +84,15 @@ namespace ColorStyleDemo.iOS
 
             var gradientView = multiGradient.ToNativeView(frame);
             Add(gradientView);
+        }
+
+        void DrawRadialGradientLayer()
+        {
+            var gradientLayer = gradient1
+                .ToRadial()
+                .ToNativeLayer(new CGRect(frame.X, frame.Y, frame.Width, frame.Height));
+
+            View.Layer.AddSublayer(gradientLayer);
         }
 
         void DrawGradientSteps()

@@ -108,6 +108,30 @@ namespace Styles.Color
 
             return gradLayer;
         }
+
+        public static CALayer ToNativeLayer(this RadialGradient target, CGRect frame)
+        {
+            return new GradientLayer(target)
+            {
+                Frame = frame
+            };
+        }
+
+        public static CALayer ToNativeLayer(this EllipticalGradient target, CGRect frame)
+        {
+            return new GradientLayer(target)
+            {
+                Frame = frame
+            };
+        }
+
+        public static CALayer ToNativeLayer(this Gradient[] targets, CGRect frame)
+        {
+            return new GradientLayer(targets)
+            {
+                Frame = frame
+            };
+        }
         #endregion
 
         #region Draw Extensions
